@@ -164,9 +164,11 @@ func generateBinaries(input *Root) error {
 
 		name = TransformBinaryTarget(name)
 
-		// first, ensure they are actually downloaded
-		if err := binaries.FetchEngine(binaries.GlobalCacheDir(), "query-engine", name); err != nil {
-			return fmt.Errorf("failed fetching binaries: %w", err)
+		if os.Getenv("PRISMA_QUERY_ENGINE_LIBRARY") == "" {
+			// first, ensure they are actually downloaded
+			if err := binaries.FetchEngine(binaries.GlobalCacheDir(), "query-engine", name); err != nil {
+				return fmt.Errorf("failed fetching binaries: %w", err)
+			}
 		}
 	}
 
@@ -190,7 +192,10 @@ func generateQueryEngineFiles(binaryTargets []string, pkg, outputDir string) err
 
 		name = TransformBinaryTarget(name)
 
-		enginePath := binaries.GetEnginePath(binaries.GlobalCacheDir(), "query-engine", name)
+		enginePath := os.Getenv("PRISMA_QUERY_ENGINE_LIBRARY")
+		if enginePath == "" {
+			enginePath = binaries.GetEnginePath(binaries.GlobalCacheDir(), "query-engine", name)
+		}
 
 		filename := fmt.Sprintf("query-engine-%s_gen.go", name)
 		to := path.Join(outputDir, filename)
