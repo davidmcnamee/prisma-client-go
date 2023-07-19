@@ -164,7 +164,7 @@ func generateBinaries(input *Root) error {
 
 		name = TransformBinaryTarget(name)
 
-		if os.Getenv("PRISMA_QUERY_ENGINE_LIBRARY") == "" {
+		if os.Getenv("PRISMA_QUERY_ENGINE_BINARY") == "" {
 			// first, ensure they are actually downloaded
 			if err := binaries.FetchEngine(binaries.GlobalCacheDir(), "query-engine", name); err != nil {
 				return fmt.Errorf("failed fetching binaries: %w", err)
