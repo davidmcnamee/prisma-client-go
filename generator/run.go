@@ -192,7 +192,7 @@ func generateQueryEngineFiles(binaryTargets []string, pkg, outputDir string) err
 
 		name = TransformBinaryTarget(name)
 
-		enginePath := os.Getenv("PRISMA_QUERY_ENGINE_LIBRARY")
+		enginePath := os.Getenv("PRISMA_QUERY_ENGINE_BINARY")
 		if enginePath == "" {
 			enginePath = binaries.GetEnginePath(binaries.GlobalCacheDir(), "query-engine", name)
 		}
