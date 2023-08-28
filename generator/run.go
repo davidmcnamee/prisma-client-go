@@ -197,7 +197,12 @@ func generateQueryEngineFiles(binaryTargets []string, pkg, outputDir string) err
 			enginePath = binaries.GetEnginePath(binaries.GlobalCacheDir(), "query-engine", name)
 		}
 
-		filename := fmt.Sprintf("query-engine-%s_gen.go", name)
+		var filename string
+		if os.Getenv("PRISMA_CLIENT_GO_CONSISTENT_FILENAMES") == "true" {
+			filename = "query-engine_gen.go"
+		} else {
+			filename = fmt.Sprintf("query-engine-%s_gen.go", name)
+		}
 		to := path.Join(outputDir, filename)
 
 		// TODO check if already exists, but make sure version matches
